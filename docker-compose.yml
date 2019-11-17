@@ -2,6 +2,9 @@ version: '3.4'
 services:
   db:
     image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: root
     build:
       context : .
       dockerfile: Dockerfile-MySQL.dev
@@ -13,7 +16,8 @@ services:
       - "3312:3306"
     env_file: .env.dev
     user: mysql
-  web:
+
+  web: &app
     container_name: 'pictures_web'
     build:
       context : .
@@ -27,6 +31,8 @@ services:
     privileged: true
     depends_on:
       - db
+    tty: true
+    stdin_open: true
 
 volumes:
   redis-data:

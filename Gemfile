@@ -42,7 +42,7 @@ gem 'ridgepole'
 gem 'dotenv-rails'
 
 # bootstrap 4
-gem 'bootstrap', '~> 4.1.3'
+gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 
 # font awesome 5
@@ -66,6 +66,9 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console', '>= 3.3.0'
   gem 'guard', require: false
+
+  # VSCode Setting
+  gem 'solargraph'
 end
 
 group :test do
