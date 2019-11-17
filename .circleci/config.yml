@@ -2,76 +2,106 @@
 #
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
+
 version: 2
+references:
+  defaults: &defaults
+    working_directory: ~/subaru21
+
+  ruby_docker_image: &ruby_docker_image
+    image: circleci/ruby:2.6.3-node-browsers
+    environment:
+      RAILS_ENV: test
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_USER: 'root'
+      MYSQL_ROOT_PASSWORD: 'secret'
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      REDIS_HOST: 127.0.0.1
+      TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+      REVIEWDOG_VERSION: 0.9.11
+
+  mysql_docker_image: &mysql_docker_image
+    image: circleci/mysql:5.7
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_ROOT_PASSWORD: 'secret'
+    command: [--character-set-server=utf8mb4, --collation-server=utf8mb4_general_ci, --default-storage-engine=innodb]
+
+  restore_code_cache: &restore_code_cache
+    restore_cache:
+      keys:
+        - v1-repo-{{ .Environment.CIRCLE_SHA1 }}
+
+  restore_gem_cache: &restore_gem_cache
+    restore_cache:
+      keys:
+        - v1-bundle-{{ checksum "Gemfile.lock" }}
+        - v1-bundle
+
 jobs:
-  rubocop:
+  build:
+    <<: *defaults
     docker:
-      - image: circleci/ruby:2.6.0-node-browsers-legacy
-        environment:
-          RAILS_ENV: test
-          DB_HOST: db
-          MYSQL_USER: 'root'
-          MYSQL_PASSWORD: 'secret'
-      - image: circleci/mysql:5.7
-        environment:
-          MYSQL_USER: 'root'
-          MYSQL_PASSWORD: 'secret'
-
-    working_directory: ~/pictures
+      - *ruby_docker_image
+      - *mysql_docker_image
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
-      - run: yarn install
+          - v2-dependencies-bundler
+          - v2-dependencies-rubocop_cache
+      - run:
+          name: install apt packages
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y cmake
+            sudo apt-get install default-mysql-client
+      - run:
+          name: 依存パッケージのインストール
+          command: |
+            gem install bundler:2.0.1
+            bundle install --jobs=4 --retry=3 --path vendor/bundle && \
+            bundle clean
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-      # Rubocop
+          key: v2-dependencies-bundler
       - run:
-          name: Rubocop
-          command: bundle exec rubocop
-
-  rspec:
-    docker:
-      - image: circleci/ruby:2.6.0-node-browsers-legacy
-        environment:
-          RAILS_ENV: test
-          DB_HOST: db
-      - image: circleci/mysql:5.7
-        environment:
-          MYSQL_USER: 'root'
-          MYSQL_PASSWORD: 'secret'
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-      - run: bundle install --jobs=4 --retry=3 --path vendor/bundle
-      - run: yarn install
+          name: RuboCop
+          command: XDG_CACHE_HOME=./tmp/rubocop_cache bundle exec rubocop --display-cop-names --display-style-guide --parallel --cache true
       - save_cache:
           paths:
-            - ./vendor/bundle
-          key: v1-dependencies-{{ checksum "Gemfile.lock" }}
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
-      # Rspec
+            - ./tmp/rubocop_cache
+          key: v2-dependencies-rubocop_cache
+      # - run:
+      #     name: rails_best_practices
+      #     command: bundle exec rails_best_practices .
       - run:
-          name: Rspec
-          command: bundle exec rspec
-
+          name: テストを実行
+          type: shell
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            CIRCLE_ARTIFACTS=/tmp/test-results COVERAGE=true bundle exec rspec \
+              --format progress \
+              --format RspecJunitFormatter \
+              --out /tmp/test-results/rspec.xml \
+              $TEST_FILES
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
 workflows:
   version: 2
-  rubocop_rspec:
+  build_and_test_and_deploy:
     jobs:
-      - rubocop
-      - rspec:
-          requires:
-            - rubocop
+      - build
+      # - deploy_stg:
+      #     requires:
+      #       - build
+      #     type: approval
+      #     filters:
+      #       branches:
+      #         only:
+      #           - develop
