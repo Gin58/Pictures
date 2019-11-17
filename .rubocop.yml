@@ -1,3 +1,7 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+
 AllCops:
   Exclude:
     - "tmp/**/*"
@@ -33,3 +37,6 @@ Bundler/OrderedGems:
 
 Lint/ShadowedException:
   Enabled: false
+
+LineLength:
+  Max: 150

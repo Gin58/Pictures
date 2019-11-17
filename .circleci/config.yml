@@ -6,7 +6,7 @@
 version: 2
 references:
   defaults: &defaults
-    working_directory: ~/subaru21
+    working_directory: ~/pictures
 
   ruby_docker_image: &ruby_docker_image
     image: circleci/ruby:2.6.3-node-browsers
