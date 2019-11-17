@@ -42,7 +42,7 @@ gem 'ridgepole'
 gem 'dotenv-rails'
 
 # bootstrap 4
-gem 'bootstrap', '~> 4.1.3'
+gem 'bootstrap', '~> 4.3.1'
 gem 'jquery-rails'
 
 # font awesome 5
