@@ -1,0 +1,21 @@
+# Dockerfile_MySQL
+FROM mysql:5.7
+
+# Set debian default locale to ja_JP.UTF-8
+# RUN apt-get update && \
+#    apt-get install -y locales && \
+#    rm -rf /var/lib/apt/lists/*
+
+# Set MySQL character
+RUN { \
+    echo '[mysql]'; \
+    echo 'default-character-set=utf8mb4'; \
+    echo '[mysqld]'; \
+    echo 'character-set-server=utf8mb4'; \
+    echo 'collation-server=utf8mb4_general_ci'; \
+    echo 'init-connect = SET NAMES utf8mb4'; \
+    echo 'innodb-file-format=barracuda'; \
+    echo 'innodb_file_format_max=barracuda'; \
+    echo '[client]'; \
+    echo 'default-character-set=utf8mb4'; \
+} > /etc/mysql/conf.d/charset.cnf
