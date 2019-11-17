@@ -6,6 +6,8 @@
 
 # Ignore bundler config.
 /.bundle
+/vendor/bundle/
+/vendor/ruby/
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -25,5 +27,34 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+/spec/tmp/*
+/cache
+/capybara*
+/capybara-*.html
+/gems
+/spec/routing
+/spec/views
+
+# scm revert files
+**.orig
+
+# Mac finder artifacts
+doc/
+*.swp
+*~
+.project
+.DS_Store
+.idea/*
+.secret
+/db/mysql
+/db/mysql/volumes/*
+/nbproject/private/
+coverage
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*.yml
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
 
 .env.dev
