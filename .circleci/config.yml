@@ -84,7 +84,7 @@ jobs:
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
             CIRCLE_ARTIFACTS=/tmp/test-results COVERAGE=true bundle exec rspec \
               --format progress \
-              --format RspecJunitFormatter \
+              # --format RspecJunitFormatter \
               --out /tmp/test-results/rspec.xml \
               $TEST_FILES
       - store_test_results:
@@ -94,7 +94,7 @@ jobs:
           destination: test-results
 workflows:
   version: 2
-  build_and_test_and_deploy:
+  rubocop_rspec:
     jobs:
       - build
       # - deploy_stg:
