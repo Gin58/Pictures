@@ -57,7 +57,7 @@ jobs:
             sudo apt-get install -y cmake
             sudo apt-get install default-mysql-client
       - run:
-          name: 依存パッケージのインストール
+          name: Bundle install
           command: |
             gem install bundler:2.0.1
             bundle install --jobs=4 --retry=3 --path vendor/bundle && \
@@ -73,19 +73,20 @@ jobs:
           paths:
             - ./tmp/rubocop_cache
           key: v2-dependencies-rubocop_cache
-      # - run:
-      #     name: rails_best_practices
-      #     command: bundle exec rails_best_practices .
       - run:
-          name: テストを実行
+          name: rails_best_practices
+          command: bundle exec rails_best_practices .
+      - run:
+          name: Rspec　Test
           type: shell
           command: |
             mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
             CIRCLE_ARTIFACTS=/tmp/test-results COVERAGE=true bundle exec rspec \
-              --format RspecJunitFormatter \
               --format progress \
+              --format RspecJunitFormatter \
               --out /tmp/test-results/rspec.xml \
-              TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+              $TEST_FILES
       - store_test_results:
           path: /tmp/test-results
       - store_artifacts:
