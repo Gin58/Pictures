@@ -50,6 +50,12 @@ gem 'jquery-rails'
 # font awesome 5
 gem 'font-awesome-rails'
 
+# pagenation
+gem 'kaminari'
+
+# haml
+gem 'haml-rails'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
