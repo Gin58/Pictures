@@ -56,6 +56,10 @@ gem 'kaminari'
 # haml
 gem 'haml-rails'
 
+# MaterialDesign
+gem 'materialize-sass', '~> 1.0.0'
+gem 'material_icons'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
