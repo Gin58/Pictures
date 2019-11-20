@@ -50,6 +50,16 @@ gem 'jquery-rails'
 # font awesome 5
 gem 'font-awesome-rails'
 
+# pagenation
+gem 'kaminari'
+
+# haml
+gem 'haml-rails'
+
+# MaterialDesign
+gem 'materialize-sass', '~> 1.0.0'
+gem 'material_icons'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
@@ -77,9 +87,6 @@ group :test do
   gem 'capybara', '>= 2.15'
   gem 'rspec-rails', '~> 3.8.0'
   gem 'rspec_junit_formatter'
-  gem 'selenium-webdriver'
-  # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'chromedriver-helper'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
