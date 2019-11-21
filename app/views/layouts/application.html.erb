@@ -10,6 +10,18 @@
   </head>
 
   <body>
+    <header>
+      <nav>
+        <% if account_signed_in? %>
+          Logged in as <strong><%= current_account.email %></strong>.
+          <%= link_to 'プロフィール変更', edit_account_registration_path %> |
+          <%= link_to "ログアウト", sign_out_path %>
+        <% else %>
+          <%= link_to "サインイン", new_account_registration_path %> |
+          <%= link_to "ログイン", new_account_session_path %>
+        <% end %>
+      </nav>
+    </header>
     <%= yield %>
   </body>
 </html>

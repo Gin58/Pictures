@@ -50,6 +50,14 @@ gem 'jquery-rails'
 # font awesome 5
 gem 'font-awesome-rails'
 
+# gem 'active_admin_flat_skin'
+gem 'activeadmin'
+gem 'carrierwave', '~> 1.0'
+gem 'devise'
+gem 'devise-i18n'
+gem 'devise-i18n-views'
+gem 'faker'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'

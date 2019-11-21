@@ -1,0 +1,6 @@
+create_table :workcodes, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+  t.string :workcode_name
+  t.float :use_time
+
+  t.timestamps null: false
+end

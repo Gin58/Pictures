@@ -1,0 +1,6 @@
+create_table :holidays, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+  t.date :holiday_date
+  t.string :holiday_name, limit: 50
+
+  t.timestamps null: false
+end

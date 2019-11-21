@@ -2,3 +2,9 @@
 # docker-compose run --rm web bundle exec ridgepole -c config/database.yml -E development --apply -f db/Schemafile
 
 require 'schemas/accounts.schema'
+require 'schemas/positions.schema'
+require 'schemas/timecards.schema'
+require 'schemas/holidays.schema'
+require 'schemas/notes.schema'
+require 'schemas/vacations.schema'
+require 'schemas/workcodes.schema'

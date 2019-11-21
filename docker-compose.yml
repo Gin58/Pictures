@@ -13,7 +13,7 @@ services:
     volumes:
       - ./db/mysql/volumes:/var/lib/mysql:cached
     ports:
-      - "3312:3306"
+      - "3322:3306"
     env_file: .env.dev
     user: mysql
 
@@ -22,11 +22,11 @@ services:
     build:
       context : .
       dockerfile: Dockerfile.dev
-    command: bash -c "rm -rf /pictures/tmp/pids/server.pid && bundle exec rake db:create && bundle exec ridgepole -c config/database.yml -E development --apply -f db/Schemafile && bundle exec rails s -p 3007 -b '0.0.0.0'"
+    command: bash -c "rm -rf /pictures/tmp/pids/server.pid && bundle exec rake db:create && bundle exec ridgepole -c config/database.yml -E development --apply -f db/Schemafile && bundle exec rails s -p 8080 -b '0.0.0.0'"
     volumes:
       - .:/pictures:cached
     ports:
-      - "3007:3007"
+      - "8080:8080"
     env_file: .env.dev
     privileged: true
     depends_on:
