@@ -1,0 +1,8 @@
+create_table :notes, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+  t.integer :user_id, default: 0, null: false
+  t.integer :year, limit: 4, default: 0, null: false
+  t.integer :month, limit: 2, default: 0, null: false
+  t.text :comment
+
+  t.timestamps null: false
+end

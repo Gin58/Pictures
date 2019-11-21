@@ -1,0 +1,23 @@
+create_table :timecards, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+  t.date :input_date
+  t.integer :account_id
+  t.integer :workcode_id
+  t.date :request_date
+  t.integer :start_time_h, default: 0
+  t.integer :start_time_m, default: 0
+  t.integer :end_time_h, default: 0
+  t.integer :end_time_m, default: 0
+  t.integer :actual_time, default: 0
+  t.string  :card_comment
+  t.integer :overtime_start_time_h, default: 0
+  t.integer :overtime_start_time_m, default: 0
+  t.integer :overtime_end_time_h, default: 0
+  t.integer :overtime_end_time_m, default: 0
+  t.integer :overtime_total_h, default: 0
+  t.integer :overtime_total_m, default: 0
+  t.integer :overtime_total, default: 0
+  t.datetime :updated_at
+  t.integer :confirmation_code
+
+  t.timestamps null: false
+end

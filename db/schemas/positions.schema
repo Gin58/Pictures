@@ -1,0 +1,10 @@
+
+create_table :positions, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC" do |t|
+  t.string 'position_name'
+  t.integer 'work_start_time_h', default: 8
+  t.integer 'work_start_time_m', default: 30
+  t.integer 'work_end_time_h', default: 17
+  t.integer 'work_end_time_m', default: 30
+
+  t.timestamps null: false
+end
