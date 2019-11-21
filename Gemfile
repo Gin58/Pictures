@@ -54,6 +54,8 @@ gem 'font-awesome-rails'
 gem 'activeadmin'
 gem 'carrierwave', '~> 1.0'
 gem 'devise'
+gem 'devise-i18n'
+gem 'devise-i18n-views'
 gem 'faker'
 
 group :development, :test do
