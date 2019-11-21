@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   }
 
   devise_scope :account do
-    get "sign_in", to: 'accounts/sessions#new'
-    get "sign_out", to: 'accounts/sessions#destroy'
+    get 'sign_in', to: 'accounts/sessions#new'
+    get 'sign_out', to: 'accounts/sessions#destroy'
   end
 
   root to: 'home#index'
