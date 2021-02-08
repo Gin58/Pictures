@@ -52,7 +52,7 @@ gem 'font-awesome-rails'
 
 # gem 'active_admin_flat_skin'
 gem 'activeadmin'
-gem 'carrierwave', '~> 1.0'
+gem 'carrierwave', '~> 1.3'
 gem 'devise'
 gem 'devise-i18n'
 gem 'devise-i18n-views'
